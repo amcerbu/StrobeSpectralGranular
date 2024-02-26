@@ -1,0 +1,78 @@
+Things to investigate:
+
+- a menu for configuring the pedal. configurations include:
+	- input / output preferences: mono unbalanced (x, x), mono balanced (x, -x), stereo (x, y)
+	- buffer size, sample rate, true vs digital bypass
+	- load and save presets (how many banks? different presets for different modes as described below?)
+	x saving to nonvolatile storage (essential!)
+
+	- passthrough on channel 2; effect on channel 1. really there are three parameters in play:
+			out[0] = AB in[0] (wet pre-effect) + A(1-B) in[1] (dry pre-effect) + (1 - A) effect(C in[0] + (1 - C) in[1]) (wet post-effect)
+			out[1] = in[1]
+
+		in other words, the n^th pedal receives the dry signal (clean guitar / bass / input), plus the wet output of the (n-1)^st pedal
+		the n^th pedal outputs some mix of the dry signal, (n-1)^st wet signal, and n^th wet signal (which itself is fed some mix)...
+
+		thus mixing requires three knobs. A is the uneffected / effected knob, B controls mix of uneffected true-clean vs recently-wet,
+		C controls mix of effected true-clean vs recently-wet. A is most accurately a "dry-wet" knob. B and C then control how much the 
+		new dry and wet channels bypass the earlier effects chain. if e.g. A = 0.5, B = 1, C = 0, we're running the two effects in parallel. 
+		if on the other hand B = 0 we are completely bypassing the previous pedal. 
+
+		mixing features should always be knob-controllable, but depending on the mode (see below), they may also need to be
+		footswitch-controllable. 
+
+
+- a way to switch between the following modes (any combination of the 2 x 2 options):
+	- "realtime" (circular buffer) vs "frozen" (static pre-saved buffer)
+		- in static mode, the controls are via hardware knobs (scrubbing through audio, triggering
+		  bursts of grains with the pedals, ...)
+		- in realtime mode we can toggle a granular freeze function -- whose behavior perhaps changes with
+		  one of the momentary switches: for example, a "sustain" pedal
+	- "atmospheric" vs "rhythmic"
+
+		The pedal as it exists now is somewhere between realtime + (atmospheric, rhythmic), but without any of
+		(I think) the most important features of those two poles.
+
+		Realtime + atmospheric is some augmentation of the pedal as it is now (Oct 2023). Ideally there'd be
+			more footswitch interaction, perhaps some sort of sustain pedal feature, etc.
+		Realtime + rhythmic would be something more along the lines of a tap-tempo enabled rhythm generator
+			perhaps with intelligent beat-following, procedural rhythms, distortions that degenerate audio input
+			into percussive sounds, etc.
+		Frozen + atmospheric would be more like a desktop synth: scrubbing through an audio waveform, creating 
+			textures. The audio buffer is not something you change often, though it can be modified whenever desired.
+			The control instead comes from the knobs and switches. You put a sound in and then mess with it.
+		Frozen + rhythmic would be like a desktop drum machine: perhaps a sequencer, some sort of rhythm composer,
+			distortions and other effects on grains, ...
+
+		I suppose the main consideration is that "realtime" assumes there's a constantly evolving audio input buffer -- 
+		in which case the performer's hands are likely occupied -- while "frozen" assumes a fixed buffer, and therefore
+		expects use of all the hardware controls on the device. This might allow for some crazier soundscapes -- modulated delay,
+		various kinds of toggle-able distortions, etc.
+
+- a way to quickly move between presets -- either in the same configuration or between configurations. 
+  i.e. I want to eliminate the redundancy of having several pedals running the same program if I only use
+  one at a time. 
+
+
+Software bookkeeping:
+- better handling of momentary footswitches (which sometimes double-trigger). Maybe a "is_held(msecs)" rather than what I've been doing
+
+
+Inspiration:
+
+- https://www.youtube.com/watch?v=npnsrLpwAXM
+
+Next iteration:
+
+- deal with the bypassing fiasco!
+- slightly larger enclosure?
+- deal with hardware issues / construction: break out the pots onto their own PCBs
+- support mono, dual TS, and TRS i/o
+- micro switches for selecting line / instrument level at input / output (i.e., bypass amplification circuit?)
+- jacks on top of the unit, rather than on the sides
+- a few more buttons for menu navigation would be excellent. tiny ones, like on the turbo tuner, would be perfect.
+	these buttons could be used for, e.g., midi learning (mapping midi parameters to software params)
+		- draw inspiration from norms: a program should have a menu listing its mappable parameters...
+	the tiny buttons also might obviate the need for the DFU mode gesture, etc.
+	definitely they become the buttons that we use for gestures
+- should the next incarnation use a Raspberry Pi compute module?

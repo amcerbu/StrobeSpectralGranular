@@ -1,0 +1,13 @@
+Todo:
+
+- Implement spectral pitch-shifting properly
+x Speed up windowing computation by using a lookup table
+- Finish the phase vocoder! What happens when you use the phases
+  of some auxiliary signal but the amplitudes of yours?
+  Can we get Bon Iver-style harmonizer sounds?
+  	- That ought to be the phases of the audio input signal, and the
+  	  amplitudes of some auxiliary signal, i.e. a synth. It might seem
+  	  . 
+- Spectral freeze
+	- All sorts of interesting things here: a sustain pedal for example,
+	  ... lots to think about
