@@ -1,0 +1,24 @@
+# Ignore all
+*
+
+# Unignore all with extensions
+!*.*
+
+# Unignore all dirs
+!*/
+
+# Unignore makefiles
+!*makefile
+
+# Ignore binaries
+*.bin
+*.d
+*.elf
+*.hex
+*.lst
+*.map
+*.o
+*.d
+
+# Ignore silly files
+*.DS_Store
