@@ -1,10 +1,7 @@
 # Reprogrammable Effects Pedals on the Daisy Seed Platform
 This is the Git repository associated with the preprint for ICMC 2024; this hosts the code for firmware configured to run on [Keith Shepherd's 125b guitar pedal design](https://github.com/bkshepherd/DaisySeedProjects). 
 
-A cursory video demonstration of the capability of these effects:
-
-<!-- https://github.com/amcerbu/StrobeSpectralGranular/blob/main/Documentation.mov -->
-<video src='https://github.com/amcerbu/StrobeSpectralGranular/blob/main/Documentation.mov' width=180/>
+A [cursory video demonstration](https://www.youtube.com/watch?v=kP8p7N7xG-s) of the capability of these effects. The video can also be [downloaded and played locally](https://github.com/amcerbu/StrobeSpectralGranular/blob/main/Documentation.mov). 
 
 ### Current examples:
 * `fourier`. Realtime spectral processing (STFT), along the lines of the Max/MSP object `pfft~`. The Daisy can handle four overlaps at N = 4096, or eight at N = 2048. As configured, the bottom-right potentiometer controls a "cutoff" amplitude ratio. Frequencies whose amplitudes are above or below that ratio of the average amplitude are attenuated to different degrees, according to the positions of the other two knobs in that row. At one extreme, the effect behaves like a de-noiser (wideband sounds are attenuated, periodic signals pass); at the other extreme, you hear only the noise and little harmonic content. Also displays the frequency-domain signal in realtime. Thanks to Émilie Gillet for `shy_fft.h`, an ARM-optimized fast Fourier transform implementation.  
