@@ -8,7 +8,6 @@
 #include "wave.h"
 #include "buffer.h"
 #include "granulator.h"
-#include "rms.h"
 
 #include "gesture.h"
 
@@ -49,8 +48,6 @@ FBuffer<S>* source; // preallocated buffer
 Buffer<S>* source; // dynamically allocated buffer
 #endif
 
-
-RMS<S> rms;
 
 // create pointers to DSP objects; construct after hw.Init()
 Granulator<S>* granny;
@@ -518,8 +515,6 @@ static void Callback(AudioHandle::InterleavingInputBuffer in,
 		x = (int)(waveform_width * source->get_origin() / (float)source->get_size());
 
 		static S vertical_correction = 3.0;
-		// vertical_correction = 1.0 / (0.2 + rms(in_sample));
-		// rms.tick();
 
 		y = std::clamp((int)(height * (3 + (vertical_correction * effectOn) * in_sample) / 4.0), height / 2 + 1, height - 1);
 		hw.display.DrawPixel(x, y, true);
